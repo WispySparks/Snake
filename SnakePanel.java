@@ -19,7 +19,7 @@ public class SnakePanel extends JPanel implements KeyListener{
     int appleY = 0;
     int direction = 3;    // 0 up, 1 right, 2 down, 3 left, like NESW
     int timerDelay = 100;
-    Timer timer;
+    Timer timer = new Timer(timerDelay, null);
 
     SnakePanel() {
         getApple();
@@ -28,35 +28,7 @@ public class SnakePanel extends JPanel implements KeyListener{
             snakeYArray[i] = 1;
         }
         this.setPreferredSize(new Dimension(windowSize, windowSize));
-        this.addKeyListener(new KeyListener() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                System.out.println("im bad");;
-                if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    direction = 0;
-                    System.out.println("shieesh");;
-                }
-                else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    System.out.println("shieesh");;
-                    direction = 1;
-                }
-                else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    System.out.println("shieesh");;
-                    direction = 2;
-                }
-                else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    System.out.println("shieesh");;
-                    direction = 3;
-                }
-            }
-            public void keyReleased(KeyEvent e) {
-
-            }
-            public void keyTyped(KeyEvent e) {
-
-            }
-        });
-        //timer.start();
+        timer.start();
     }
 
     public void paint(Graphics g) {
@@ -83,5 +55,31 @@ public class SnakePanel extends JPanel implements KeyListener{
     
     public void move() {
         
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            direction = 0;
+            System.out.println("up");
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            System.out.println("right");
+            direction = 1;
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            System.out.println("down");
+            direction = 2;
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            System.out.println("left");
+            direction = 3;
+        }
+    }
+    public void keyReleased(KeyEvent event) {
+
+    }
+    public void keyTyped(KeyEvent event) {
+
     }
 }
