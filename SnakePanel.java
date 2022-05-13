@@ -28,7 +28,34 @@ public class SnakePanel extends JPanel implements KeyListener{
             snakeYArray[i] = 1;
         }
         this.setPreferredSize(new Dimension(windowSize, windowSize));
-        //this.addKeyListener(new keyListener());
+        this.addKeyListener(new KeyListener() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("im bad");;
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    direction = 0;
+                    System.out.println("shieesh");;
+                }
+                else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    System.out.println("shieesh");;
+                    direction = 1;
+                }
+                else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    System.out.println("shieesh");;
+                    direction = 2;
+                }
+                else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    System.out.println("shieesh");;
+                    direction = 3;
+                }
+            }
+            public void keyReleased(KeyEvent e) {
+
+            }
+            public void keyTyped(KeyEvent e) {
+
+            }
+        });
         //timer.start();
     }
 
@@ -54,24 +81,7 @@ public class SnakePanel extends JPanel implements KeyListener{
         appleY = rand.nextInt(gridSize) * tileSize;
     }
     
-    @Override
-    public void keyPressed(KeyEvent e) {
-        System.out.println("im bad");;
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            direction = 0;
-            System.out.println("shieesh");;
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            System.out.println("shieesh");;
-            direction = 1;
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            System.out.println("shieesh");;
-            direction = 2;
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            System.out.println("shieesh");;
-            direction = 3;
-        }
+    public void move() {
+        
     }
 }
