@@ -27,7 +27,9 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     int timerDelay = 250;   // basically how fast the game is
     boolean running = true;    // if you have lost yet
     boolean eaten = false;
-    boolean gotInput = false;     //bug fix for going inside yourself
+    boolean gotInput = true;     //bug fix for going inside yourself
+    boolean blinkBlack = true;
+    int blinkAmount = 1;
     int score = 0;
     Timer timer;
 
@@ -45,7 +47,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
 
     public void paint(Graphics g) {     // redraws window
         // draw apple
-        //ToDo blink snake when dead, input not feeling great should implment a next move
+        //ToDo input not feeling great should implment a next move
         if (eaten == false) {
             g.setColor(new Color(255, 0, 0));
             g.fillOval(appleX, appleY, tileSize, tileSize);
@@ -55,14 +57,28 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
             g.fillOval(appleX, appleY, tileSize, tileSize);
         }
         // draw snake
-        for (int i=0; i<bodyParts; i++) {
-            g.setColor(new Color(0, 0, 0));
-            g.fillRect(prevSnakeXArray[i], prevSnakeYArray[i], tileSize, tileSize);
-            if (i == 0) {
-                g.setColor(new Color(0, 255, 0));
+        if (running) {
+            for (int i=0; i<bodyParts; i++) {
+                g.setColor(new Color(0, 0, 0));
+                g.fillRect(prevSnakeXArray[i], prevSnakeYArray[i], tileSize, tileSize);
+                if (i == 0) {
+                    g.setColor(new Color(0, 255, 0));
+                    g.fillRect(snakeXArray[i], snakeYArray[i], tileSize, tileSize);
+                }
+                else {
+                    g.setColor(new Color(0, 130, 0));
+                    g.fillRect(snakeXArray[i], snakeYArray[i], tileSize, tileSize);
+                }
+            }
+        }
+        else if (blinkBlack){      // draw blinking death
+            for (int i=0; i<bodyParts; i++) {
+                g.setColor(new Color(0, 0, 0));
                 g.fillRect(snakeXArray[i], snakeYArray[i], tileSize, tileSize);
             }
-            else {
+        }
+        else if (!blinkBlack) {
+            for (int i=0; i<bodyParts; i++) {
                 g.setColor(new Color(0, 130, 0));
                 g.fillRect(snakeXArray[i], snakeYArray[i], tileSize, tileSize);
             }
@@ -74,7 +90,6 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         appleY = rand.nextInt(gridSize) * tileSize;
         for (int i = 0; i<bodyParts; i++) {
             if (snakeXArray[i] == appleX && snakeYArray[i] == appleY) {
-                System.out.println("HAHA APPLE CANT GO THERE");
                 getApple();
             }
         }
@@ -82,12 +97,12 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     }
 
     public void checkCollison() {   // check all collisions for the snake
-        for (int j = 1; j<bodyParts; j++) {
+        for (int j = 1; j<bodyParts; j++) {     // if snake hits itself
             if (snakeXArray[0] == snakeXArray[j] && snakeYArray[0] == snakeYArray[j]) {
                 running = false;
             }
         }
-        for (int i = 0; i<bodyParts; i++) {
+        for (int i = 0; i<bodyParts; i++) {     // if snake hits edge of window
             if (snakeXArray[i] < 0 || snakeXArray[i] >= windowSize || snakeYArray[i] < 0 || snakeYArray[i] >= windowSize) {
                 running = false;
             }
@@ -103,7 +118,6 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
             }
             score++;
             bodyParts++;
-            System.out.println(timerDelay);
             addBody();
             getApple();   
         }
@@ -112,7 +126,6 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     public void move() {    // move the snake
         switch (direction) {
             case 0:
-                System.out.println(direction);
                 for (int i = 0; i<bodyParts; i++) {
                     prevSnakeXArray[i] = snakeXArray[i];
                     prevSnakeYArray[i] = snakeYArray[i];
@@ -126,7 +139,6 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
                 }
                 break;
             case 1:
-                System.out.println(direction);
                 for (int i = 0; i<bodyParts; i++) {
                     prevSnakeXArray[i] = snakeXArray[i];
                     prevSnakeYArray[i] = snakeYArray[i];
@@ -140,7 +152,6 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
                 }
                 break;
             case 2:
-                System.out.println(direction);
                 for (int i = 0; i<bodyParts; i++) {
                     prevSnakeXArray[i] = snakeXArray[i];
                     prevSnakeYArray[i] = snakeYArray[i];
@@ -154,7 +165,6 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
                 }
                 break;
             case 3:
-                System.out.println(direction);
                 for (int i = 0; i<bodyParts; i++) {
                     prevSnakeXArray[i] = snakeXArray[i];
                     prevSnakeYArray[i] = snakeYArray[i];
@@ -176,11 +186,12 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         checkCollison();
         if (running) {
             move();
+            gotInput = false;
         }
         else {
-            timer.stop();
+            timer.setDelay(100);
+            gameOver();
         }
-        gotInput = false;
     }
 
     public void addBody() {
@@ -191,6 +202,22 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         else {
             snakeXArray[bodyParts-1] = prevSnakeXArray[bodyParts-1];
             snakeYArray[bodyParts-1] = prevSnakeYArray[bodyParts-1];
+        }
+    }
+
+    public void gameOver() {
+        if (blinkAmount < 8) {
+            if (blinkAmount % 2 == 1) {
+                blinkBlack = true;
+            }
+            else { 
+                blinkBlack = false;
+            }
+            blinkAmount++;
+            repaint();
+        }
+        else {
+            timer.stop();
         }
     }
 
