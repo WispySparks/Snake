@@ -24,7 +24,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     int appleX = 0;
     int appleY = 0;
     int direction = 3;    // 0 up, 1 right, 2 down, 3 left, like NESW
-    int timerDelay = 100;   // basically how fast the game is
+    int timerDelay = 250;   // basically how fast the game is
     boolean running = true;    // if you have lost yet
     boolean eaten = false;
     boolean gotInput = false;     //bug fix for going inside yourself
@@ -44,6 +44,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
 
     public void paint(Graphics g) {     // redraws window
         // draw apple
+        //ToDo blink snake when dead, input not feeling great should implment a next move
         if (eaten == false) {
             g.setColor(new Color(255, 0, 0));
             g.fillOval(appleX, appleY, tileSize, tileSize);
@@ -57,11 +58,11 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
             g.setColor(new Color(0, 0, 0));
             g.fillRect(prevSnakeXArray[i], prevSnakeYArray[i], tileSize, tileSize);
             if (i == 0) {
-                g.setColor(new Color(81, 222, 0));
-                g.fillRect(snakeXArray[i], snakeYArray[i], tileSize, tileSize);  
+                g.setColor(new Color(0, 255, 0));
+                g.fillRect(snakeXArray[i], snakeYArray[i], tileSize, tileSize);
             }
             else {
-                g.setColor(new Color(72, 196, i*5));
+                g.setColor(new Color(0, 130, 0));
                 g.fillRect(snakeXArray[i], snakeYArray[i], tileSize, tileSize);
             }
         }
@@ -91,8 +92,16 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         }
         if (snakeXArray[0] == appleX && snakeYArray[0] == appleY) {
             eaten = true;
+            if (timerDelay <= 50) {
+
+            }
+            else {
+                timerDelay -= 10;
+                timer.setDelay(timerDelay);    
+            }
             score++;
             bodyParts++;
+            System.out.println(timerDelay);
             addBody();
             getApple();   
         }
