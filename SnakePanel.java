@@ -77,19 +77,13 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         }
         eaten = false;
     }
-    //ToDo add in check if snake has hit max array length, if so then you win the game
+
     public void checkCollison() {   // check all collisions for the snake
-        // for (int i = 0; i<bodyParts; i++) {
-        //     for (int j = 1; i<bodyParts-1; i++) {
-        //         if (snakeXArray[i] == snakeXArray[j] && snakeYArray[i] == snakeYArray[j]) {
-        //             running = false;
-        //         }
-        //         if (j == 7) {
-        //             break;
-        //         }
-        //         j++;
-        //     }
-        // }
+        for (int j = 1; j<bodyParts; j++) {
+            if (snakeXArray[0] == snakeXArray[j] && snakeYArray[0] == snakeYArray[j]) {
+                running = false;
+            }
+        }
         for (int i = 0; i<bodyParts; i++) {
             if (snakeXArray[i] < 0 || snakeXArray[i] >= windowSize || snakeYArray[i] < 0 || snakeYArray[i] >= windowSize) {
                 running = false;
@@ -179,8 +173,14 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     }
 
     public void addBody() {
-        snakeXArray[bodyParts-1] = prevSnakeXArray[bodyParts-1];
-        snakeYArray[bodyParts-1] = prevSnakeYArray[bodyParts-1];
+        if (bodyParts == arraySize) {
+            running = false;
+            System.out.println("Congrats you won!");
+        }
+        else {
+            snakeXArray[bodyParts-1] = prevSnakeXArray[bodyParts-1];
+            snakeYArray[bodyParts-1] = prevSnakeYArray[bodyParts-1];
+        }
     }
 
     @Override
