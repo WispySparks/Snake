@@ -23,7 +23,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     Random rand = new Random();   // random num gen for apple
     int appleX = 0;
     int appleY = 0;
-    int direction = 3;    // 0 up, 1 right, 2 down, 3 left, like NESW
+    int direction;    // 0 up, 1 right, 2 down, 3 left, like NESW
     int timerDelay = 250;   // basically how fast the game is
     boolean running = true;    // if you have lost yet
     boolean eaten = false;
@@ -32,14 +32,15 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     Timer timer;
 
     SnakePanel() {
-        getApple();
+        int randSpawn = randRange(10, 21);
+        randDirection(0, 4);
         for (int i=0; i<bodyParts; i++) {
-            snakeXArray[i] = (i*tileSize)+(tileSize*13);
-            snakeYArray[i] = (tileSize * 13);
+            snakeXArray[i] = (i*tileSize)+(tileSize*randSpawn);
+            snakeYArray[i] = (tileSize * randSpawn);
         }
+        getApple();
         this.setPreferredSize(new Dimension(windowSize, windowSize));
         timer = new Timer(timerDelay, this);
-        timer.start();
     }
 
     public void paint(Graphics g) {     // redraws window
@@ -73,6 +74,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         appleY = rand.nextInt(gridSize) * tileSize;
         for (int i = 0; i<bodyParts; i++) {
             if (snakeXArray[i] == appleX && snakeYArray[i] == appleY) {
+                System.out.println("HAHA APPLE CANT GO THERE");
                 getApple();
             }
         }
@@ -211,10 +213,24 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
             gotInput = true;
         }
     }
-    public void keyReleased(KeyEvent event) {
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER && running == true && timer.isRunning() == false) {
+            timer.start();
+        }
 
     }
     public void keyTyped(KeyEvent event) {
 
+    }
+
+    public int randRange(int min, int max) {
+        return rand.ints(min, max).findFirst().getAsInt();
+    }
+
+    public void randDirection(int min, int max) {
+        direction = rand.ints(min, max).findFirst().getAsInt();
+        if (direction == 1) {
+            randDirection(min, max);
+        }
     }
 }
