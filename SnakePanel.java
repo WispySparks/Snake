@@ -13,14 +13,17 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     final int tileSize = 25;
     final int gridSize = 30;
     final int windowSize = (gridSize*tileSize);
-    int bodyParts = 6;
+    int bodyParts = 8;
     int[] snakeXArray = new int[bodyParts];
     int[] snakeYArray = new int[bodyParts];
+    int[] prevSnakeXArray = new int[bodyParts];
+    int[] prevSnakeYArray = new int[bodyParts];
     Random rand = new Random();   //random num gen for apple
     int appleX = 0;
     int appleY = 0;
     int direction = 3;    // 0 up, 1 right, 2 down, 3 left, like NESW
-    int timerDelay = 1000;
+    int timerDelay = 200;
+    boolean running = True;
     Timer timer;
 
     SnakePanel() {
@@ -37,6 +40,8 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     public void paint(Graphics g) {
         //draw snake
         for (int i=0; i<bodyParts; i++) {
+            g.setColor(new Color(0, 0, 0));
+            g.fillRect(prevSnakeXArray[i], prevSnakeYArray[i], tileSize, tileSize);
             if (i == 0) {
                 g.setColor(new Color(81, 222, 0));
                 g.fillRect(snakeXArray[i], snakeYArray[i], tileSize, tileSize);  
@@ -60,17 +65,62 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         switch (direction) {
             case 0:
                 System.out.println(direction);
+                for (int i = 0; i<bodyParts; i++) {
+                    prevSnakeXArray[i] = snakeXArray[i];
+                    prevSnakeYArray[i] = snakeYArray[i];
+                    if (i == 0) {
+                        snakeYArray[i] -= tileSize;
+                    }
+                    else {
+                        snakeXArray[i] = prevSnakeXArray[i-1];
+                        snakeYArray[i] = prevSnakeYArray[i-1];
+                    }
+                }
                 break;
             case 1:
                 System.out.println(direction);
+                for (int i = 0; i<bodyParts; i++) {
+                    prevSnakeXArray[i] = snakeXArray[i];
+                    prevSnakeYArray[i] = snakeYArray[i];
+                    if (i == 0) {
+                        snakeXArray[i] += tileSize;
+                    }
+                    else {
+                        snakeXArray[i] = prevSnakeXArray[i-1];
+                        snakeYArray[i] = prevSnakeYArray[i-1];
+                    }
+                }
                 break;
             case 2:
                 System.out.println(direction);
+                for (int i = 0; i<bodyParts; i++) {
+                    prevSnakeXArray[i] = snakeXArray[i];
+                    prevSnakeYArray[i] = snakeYArray[i];
+                    if (i == 0) {
+                        snakeYArray[i] += tileSize;
+                    }
+                    else {
+                        snakeXArray[i] = prevSnakeXArray[i-1];
+                        snakeYArray[i] = prevSnakeYArray[i-1];
+                    }
+                }
                 break;
             case 3:
                 System.out.println(direction);
+                for (int i = 0; i<bodyParts; i++) {
+                    prevSnakeXArray[i] = snakeXArray[i];
+                    prevSnakeYArray[i] = snakeYArray[i];
+                    if (i == 0) {
+                        snakeXArray[i] -= tileSize;
+                    }
+                    else {
+                        snakeXArray[i] = prevSnakeXArray[i-1];
+                        snakeYArray[i] = prevSnakeYArray[i-1];
+                    }
+                }
                 break;
         }
+        repaint();
     }
 
     @Override
