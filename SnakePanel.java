@@ -14,19 +14,20 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     final int tileSize = 25;
     final int gridSize = 30;
     final int windowSize = (gridSize*tileSize);
-    int bodyParts = 40;
-    int[] snakeXArray = new int[bodyParts];
-    int[] snakeYArray = new int[bodyParts];
-    int[] prevSnakeXArray = new int[bodyParts];
-    int[] prevSnakeYArray = new int[bodyParts];
-    Random rand = new Random();   //random num gen for apple
+    int bodyParts = 5;
+    int arraySize = 100;
+    int[] snakeXArray = new int[arraySize];
+    int[] snakeYArray = new int[arraySize];
+    int[] prevSnakeXArray = new int[arraySize];
+    int[] prevSnakeYArray = new int[arraySize];
+    Random rand = new Random();   // random num gen for apple
     int appleX = 0;
     int appleY = 0;
     int direction = 3;    // 0 up, 1 right, 2 down, 3 left, like NESW
-    int timerDelay = 100;
-    boolean running = true;
+    int timerDelay = 100;   // basically how fast the game is
+    boolean running = true;    // if you have lost yet
     boolean eaten = false;
-    boolean gotInput = false;
+    boolean gotInput = false;     //bug fix for going inside yourself
     int score = 0;
     Timer timer;
 
@@ -41,8 +42,8 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         timer.start();
     }
 
-    public void paint(Graphics g) {
-        //draw apple
+    public void paint(Graphics g) {     // redraws window
+        // draw apple
         if (eaten == false) {
             g.setColor(new Color(255, 0, 0));
             g.fillOval(appleX, appleY, tileSize, tileSize);
@@ -51,7 +52,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
             g.setColor(new Color(0, 0, 0));
             g.fillOval(appleX, appleY, tileSize, tileSize);
         }
-        //draw snake
+        // draw snake
         for (int i=0; i<bodyParts; i++) {
             g.setColor(new Color(0, 0, 0));
             g.fillRect(prevSnakeXArray[i], prevSnakeYArray[i], tileSize, tileSize);
@@ -66,7 +67,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         }
     }
 
-    public void getApple() {
+    public void getApple() {    // get new cords of apple
         appleX = rand.nextInt(gridSize) * tileSize;
         appleY = rand.nextInt(gridSize) * tileSize;
         for (int i = 0; i<bodyParts; i++) {
@@ -76,8 +77,8 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         }
         eaten = false;
     }
-
-    public void checkCollison() {
+    //ToDo add in check if snake has hit max array length, if so then you win the game
+    public void checkCollison() {   // check all collisions for the snake
         // for (int i = 0; i<bodyParts; i++) {
         //     for (int j = 1; i<bodyParts-1; i++) {
         //         if (snakeXArray[i] == snakeXArray[j] && snakeYArray[i] == snakeYArray[j]) {
@@ -89,14 +90,21 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         //         j++;
         //     }
         // }
+        for (int i = 0; i<bodyParts; i++) {
+            if (snakeXArray[i] < 0 || snakeXArray[i] >= windowSize || snakeYArray[i] < 0 || snakeYArray[i] >= windowSize) {
+                running = false;
+            }
+        }
         if (snakeXArray[0] == appleX && snakeYArray[0] == appleY) {
             eaten = true;
             score++;
+            bodyParts++;
+            addBody();
             getApple();   
         }
     }
     
-    public void move() {
+    public void move() {    // move the snake
         switch (direction) {
             case 0:
                 System.out.println(direction);
@@ -159,7 +167,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {    // run by the Timer, stops timer when you lose
         checkCollison();
         if (running) {
             move();
@@ -170,29 +178,26 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         gotInput = false;
     }
 
+    public void addBody() {
+        snakeXArray[bodyParts-1] = prevSnakeXArray[bodyParts-1];
+        snakeYArray[bodyParts-1] = prevSnakeYArray[bodyParts-1];
+    }
+
     @Override
-    public void keyPressed(KeyEvent e) {
-        /*for (int i=0; i<bodyParts; i++) {
-            System.out.println(snakeXArray[i] + " X Cor " + i);
-            System.out.println(snakeYArray[i] + " Y Cor " + i);
-        }*/
+    public void keyPressed(KeyEvent e) {    // get key presses of user
         if (e.getKeyCode() == KeyEvent.VK_UP && direction != 2 && gotInput == false) {
-            //System.out.println("up");
             direction = 0;
             gotInput = true;
         }
         else if (e.getKeyCode() == KeyEvent.VK_RIGHT && direction != 3 && gotInput == false) {
-            //System.out.println("right");
             direction = 1;
             gotInput = true;
         }
         else if (e.getKeyCode() == KeyEvent.VK_DOWN && direction != 0 && gotInput == false) {
-            //System.out.println("down");
             direction = 2;
             gotInput = true;
         }
         else if (e.getKeyCode() == KeyEvent.VK_LEFT && direction != 1 && gotInput == false) {
-            //System.out.println("left");
             direction = 3;
             gotInput = true;
         }
