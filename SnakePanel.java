@@ -7,7 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.util.Random;
-import java.util.concurrent.DelayQueue;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.sound.sampled.*;
+import java.net.URL;
 
 public class SnakePanel extends JPanel implements KeyListener, ActionListener {
 
@@ -32,6 +37,10 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     int blinkAmount = 1;
     int score = 0;
     Timer timer;
+    File appleSound = new File("AppleSound.wav");
+    File deathSound = new File("DeathSound.wav");
+    AudioInputStream audioStream;
+    Clip clip;
 
     SnakePanel() {
         int randSpawn = randRange(10, 21);
@@ -107,10 +116,10 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
                 running = false;
             }
         }
-        if (snakeXArray[0] == appleX && snakeYArray[0] == appleY) {
+        if (snakeXArray[0] == appleX && snakeYArray[0] == appleY) {     // if snake eats apple
+            playSound(appleSound);
             eaten = true;
             if (timerDelay <= 50) {
-
             }
             else {
                 timerDelay -= 10;
@@ -119,7 +128,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
             score++;
             bodyParts++;
             addBody();
-            getApple();   
+            getApple();
         }
     }
     
@@ -205,7 +214,21 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         }
     }
 
+    public void playSound(File sound) {     // dont know how tf i made this work but uh yea it plays sounds
+        try {
+            audioStream = AudioSystem.getAudioInputStream(sound);
+            clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void gameOver() {
+        if (blinkAmount == 1) { 
+            playSound(deathSound);
+        }
         if (blinkAmount < 8) {
             if (blinkAmount % 2 == 1) {
                 blinkBlack = true;
