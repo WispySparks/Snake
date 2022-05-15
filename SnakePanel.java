@@ -9,40 +9,38 @@ import java.awt.event.KeyEvent;
 import java.util.Random;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import javax.sound.sampled.*;
-import java.net.URL;
 
 public class SnakePanel extends JPanel implements KeyListener, ActionListener {
 
-    final int tileSize = 25;
-    final int gridSize = 30;
-    final int windowSize = (gridSize*tileSize);
-    int bodyParts = 5;
-    int arraySize = 100;
-    int[] snakeXArray = new int[arraySize];
-    int[] snakeYArray = new int[arraySize];
-    int[] prevSnakeXArray = new int[arraySize];
-    int[] prevSnakeYArray = new int[arraySize];
-    Random rand = new Random();   // random num gen for apple
-    int appleX = 0;
-    int appleY = 0;
-    int direction;    // 0 up, 1 right, 2 down, 3 left, like NESW
-    int timerDelay = 250;   // basically how fast the game is
-    boolean running = true;    // if you have lost yet
-    boolean eaten = false;
-    boolean gotInput = true;     //bug fix for going inside yourself
-    boolean blinkBlack = true;
-    int blinkAmount = 1;
-    int score = 0;
+    private final int tileSize = 25;
+    private final int gridSize = 30;
+    private final int windowSize = (gridSize*tileSize);
+    private final int arraySize = 100;
+    private final File appleSound = new File("AppleSound.wav");
+    private final File deathSound = new File("DeathSound.wav");
+    private int bodyParts = 5;
+    private int[] snakeXArray = new int[arraySize];
+    private int[] snakeYArray = new int[arraySize];
+    private int[] prevSnakeXArray = new int[arraySize];
+    private int[] prevSnakeYArray = new int[arraySize];
+    private Random rand = new Random();   // random num gen for apple
+    private int appleX = 0;
+    private int appleY = 0;
+    private int direction;    // 0 up, 1 right, 2 down, 3 left, like NESW
+    private double timerDelay = 250;   // basically how fast the game is
+    private boolean running = true;    // if you have lost yet
+    private boolean eaten = false;
+    private boolean gotInput = true;     //bug fix for going inside yourself
+    private boolean blinkBlack = true;
+    private int blinkAmount = 1;
+    private int score = 0;
+    private double time = 0;
     Timer timer;
-    File appleSound = new File("AppleSound.wav");
-    File deathSound = new File("DeathSound.wav");
     AudioInputStream audioStream;
     Clip clip;
 
-    SnakePanel() {
+    SnakePanel() {  //ToDo input not feeling great should implment a next move
         int randSpawn = randRange(10, 21);
         randDirection(0, 4);
         for (int i=0; i<bodyParts; i++) {
@@ -51,12 +49,13 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         }
         getApple();
         this.setPreferredSize(new Dimension(windowSize, windowSize));
-        timer = new Timer(timerDelay, this);
+        this.setBackground(Color.black);
+        timer = new Timer((int) timerDelay, this);
     }
 
     public void paint(Graphics g) {     // redraws window
+        super.paintComponent(g);     // draws the background
         // draw apple
-        //ToDo input not feeling great should implment a next move
         if (eaten == false) {
             g.setColor(new Color(255, 0, 0));
             g.fillOval(appleX, appleY, tileSize, tileSize);
@@ -123,7 +122,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
             }
             else {
                 timerDelay -= 10;
-                timer.setDelay(timerDelay);    
+                timer.setDelay((int) timerDelay);    
             }
             score++;
             bodyParts++;
@@ -194,6 +193,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     public void actionPerformed(ActionEvent e) {    // run by the Timer, stops timer when you lose
         checkCollison();
         if (running) {
+            time += timerDelay/1000;
             move();
             gotInput = false;
         }
@@ -221,7 +221,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
             clip.open(audioStream);
             clip.start();
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -282,5 +282,13 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         if (direction == 1) {
             randDirection(min, max);
         }
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public double getTime() {
+        return time;
     }
 }
