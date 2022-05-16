@@ -36,21 +36,16 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     private int blinkAmount = 1;
     private int score = 0;
     private double time = 0;
-    Timer timer;
+    private Timer timer;
     AudioInputStream audioStream;
     Clip clip;
 
     SnakePanel() {  //ToDo input not feeling great should implment a next move
-        int randSpawn = randRange(10, 21);
-        randDirection(0, 4);
-        for (int i=0; i<bodyParts; i++) {
-            snakeXArray[i] = (i*tileSize)+(tileSize*randSpawn);
-            snakeYArray[i] = (tileSize * randSpawn);
-        }
-        getApple();
         this.setPreferredSize(new Dimension(windowSize, windowSize));
         this.setBackground(Color.black);
+        this.setFocusable(true);
         timer = new Timer((int) timerDelay, this);
+        setup();
     }
 
     public void paint(Graphics g) {     // redraws window
@@ -92,6 +87,24 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
             }
         }
     }
+
+    public void setup() {
+        bodyParts = 5;
+        int randSpawn = randRange(10, 21);
+        randDirection(0, 4);
+        for (int i=0; i<bodyParts; i++) {
+            snakeXArray[i] = (i*tileSize)+(tileSize*randSpawn);
+            snakeYArray[i] = (tileSize * randSpawn);
+        }
+        getApple();
+        timer.setDelay(250);
+        score = 0;
+        time = 0;
+        running = true;
+        gotInput = true;
+        blinkAmount = 1;
+        repaint();
+    }   
 
     public void getApple() {    // get new cords of apple
         appleX = rand.nextInt(gridSize) * tileSize;
