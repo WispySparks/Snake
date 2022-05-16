@@ -12,10 +12,12 @@ public class UIPanel extends JPanel implements ActionListener{
     private Timer timer;
     private int score = 0;
     private int timeAlive = 0;
+    private int wins = 0;
     private JButton quitButton = new JButton("Quit");
     private JButton restartButton = new JButton("Restart");
     private JLabel scoreLabel = new JLabel();
     private JLabel timeLabel = new JLabel();
+    private JLabel winsLabel = new JLabel();
     private JTextArea instruction = new JTextArea("How to Play: Arrows Keys to move and press Enter to start. Collect apples to grow larger and get 100 to win!");
     private Font mainFont = new Font("Serif", Font.PLAIN, 28);
     private Font smallFont = new Font("Serif", Font.PLAIN, 20);
@@ -35,8 +37,10 @@ public class UIPanel extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e ) {
         score = panel.getScore();
         timeAlive = (int) panel.getTime();
+        wins = panel.getWins();
         scoreLabel.setText("Score: " + Integer.toString(score));
         timeLabel.setText("Time: " + Integer.toString(timeAlive));
+        winsLabel.setText("Wins: " + Integer.toString(wins));
         if (e.getActionCommand() == "Quit") {
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
@@ -62,6 +66,9 @@ public class UIPanel extends JPanel implements ActionListener{
         timeLabel.setFont(mainFont);
         timeLabel.setAlignmentX(CENTER_ALIGNMENT);
         timeLabel.setFocusable(false);
+        winsLabel.setFont(mainFont);
+        winsLabel.setAlignmentX(CENTER_ALIGNMENT);
+        winsLabel.setFocusable(false);
         instruction.setFont(smallFont);
         instruction.setLineWrap(true);
         instruction.setWrapStyleWord(true);
@@ -72,6 +79,7 @@ public class UIPanel extends JPanel implements ActionListener{
         add(scoreLabel);
         add(timeLabel);
         add(instruction);
+        add(winsLabel);
         add(restartButton);
         add(quitButton);
     }

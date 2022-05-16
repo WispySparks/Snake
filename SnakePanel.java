@@ -19,7 +19,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     private final int arraySize = 100;
     private final File appleSound = new File("AppleSound.wav");
     private final File deathSound = new File("DeathSound.wav");
-    private int bodyParts = 5;
+    private int bodyParts;
     private int[] snakeXArray = new int[arraySize];
     private int[] snakeYArray = new int[arraySize];
     private int[] prevSnakeXArray = new int[arraySize];
@@ -29,13 +29,15 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     private int appleY = 0;
     private int direction;    // 0 up, 1 right, 2 down, 3 left, like NESW
     private double timerDelay = 250;   // basically how fast the game is
-    private boolean running = true;    // if you have lost yet
-    private boolean eaten = false;
-    private boolean gotInput = true;     //bug fix for going inside yourself
-    private boolean blinkBlack = true;
-    private int blinkAmount = 1;
-    private int score = 0;
-    private double time = 0;
+    private boolean running;    // if you have lost yet
+    private boolean eaten = false;   // if apple eaten
+    private boolean gotInput;     // bug fix for going inside yourself
+    private boolean blinkBlack = true;   // for blinking when you die
+    private int blinkAmount;
+    private int score;
+    private boolean won;
+    private int wins = 0;
+    private double time;
     private Timer timer;
     AudioInputStream audioStream;
     Clip clip;
@@ -98,6 +100,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         }
         getApple();
         timer.setDelay(250);
+        won = false;
         score = 0;
         time = 0;
         running = true;
@@ -219,7 +222,8 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     public void addBody() {
         if (bodyParts == arraySize) {
             running = false;
-            System.out.println("Congrats you won!");
+            won = true;
+            wins++;
         }
         else {
             snakeXArray[bodyParts-1] = prevSnakeXArray[bodyParts-1];
@@ -239,18 +243,23 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     }
 
     public void gameOver() {
-        if (blinkAmount == 1) { 
-            playSound(deathSound);
-        }
-        if (blinkAmount < 8) {
-            if (blinkAmount % 2 == 1) {
-                blinkBlack = true;
+        if (!won) {
+            if (blinkAmount == 1) { 
+                playSound(deathSound);
             }
-            else { 
-                blinkBlack = false;
+            if (blinkAmount < 8) {
+                if (blinkAmount % 2 == 1) {
+                    blinkBlack = true;
+                }
+                else { 
+                    blinkBlack = false;
+                }
+                blinkAmount++;
+                repaint();
             }
-            blinkAmount++;
-            repaint();
+            else {
+                timer.stop();
+            }
         }
         else {
             timer.stop();
@@ -303,5 +312,9 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
 
     public double getTime() {
         return time;
+    }
+
+    public int getWins() {
+        return wins;
     }
 }
