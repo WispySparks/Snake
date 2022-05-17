@@ -39,6 +39,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     private int wins = 0;
     private double time;
     private Timer timer;
+    private JLabel display = new JLabel();
     AudioInputStream audioStream;
     Clip clip;
 
@@ -46,12 +47,15 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         this.setPreferredSize(new Dimension(windowSize, windowSize));
         this.setBackground(Color.black);
         this.setFocusable(true);
+        display.setForeground(Color.RED);
+        display.setFont(new Font("Serif", Font.PLAIN, 40));
+        this.add(display);
         timer = new Timer((int) timerDelay, this);
         setup();
     }
 
     public void paint(Graphics g) {     // redraws window
-        super.paintComponent(g);     // draws the background
+        super.paint(g);     // draws the background
         // draw apple
         if (eaten == false) {
             g.setColor(new Color(255, 0, 0));
@@ -91,6 +95,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     }
 
     public void setup() {
+        display.setVisible(false);
         bodyParts = 5;
         int randSpawn = randRange(10, 21);
         randDirection(0, 4);
@@ -100,6 +105,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         }
         getApple();
         timer.setDelay(250);
+        timer.stop();
         won = false;
         score = 0;
         time = 0;
@@ -221,6 +227,8 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
 
     public void addBody() {
         if (bodyParts == arraySize) {
+            display.setVisible(true);
+            display.setText("You Win!");
             running = false;
             won = true;
             wins++;
@@ -244,6 +252,8 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
 
     public void gameOver() {
         if (!won) {
+            display.setVisible(true);
+            display.setText("Game Over!");
             if (blinkAmount == 1) { 
                 playSound(deathSound);
             }
