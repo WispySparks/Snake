@@ -1,9 +1,6 @@
-package SnakeGame;
-import SnakeGame.*;
+package src.Snake;
 import javax.swing.JFrame;
 import java.awt.*;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
 
 public class SnakeFrame extends JFrame{
     SnakeFrame() {

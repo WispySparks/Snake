@@ -1,5 +1,4 @@
-package SnakeGame;
-import SnakeGame.*;
+package src.Snake;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -8,7 +7,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 import java.io.File;
-import java.io.FileInputStream;
 import javax.sound.sampled.*;
 
 public class SnakePanel extends JPanel implements KeyListener, ActionListener {
@@ -17,8 +15,8 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     private final int gridSize = 30;
     private final int windowSize = (gridSize*tileSize);
     private final int arraySize = 100;
-    private final File appleSound = new File("AppleSound.wav");
-    private final File deathSound = new File("DeathSound.wav");
+    private final File appleSound = new File("src/Snake/AppleSound.wav");
+    private final File deathSound = new File("src/Snake/DeathSound.wav");
     private int bodyParts;
     private int[] snakeXArray = new int[arraySize];
     private int[] snakeYArray = new int[arraySize];
