@@ -15,8 +15,8 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     private final int gridSize = 30;
     private final int windowSize = (gridSize*tileSize);
     private final int arraySize = 100;
-    private final File appleSound = new File("resources/AppleSound.wav");
-    private final File deathSound = new File("resources/DeathSound.wav");
+    private final File appleSound = new File("resources/audio/AppleSound.wav");
+    private final File deathSound = new File("resources/audio/DeathSound.wav");
     private int bodyParts;
     private int[] snakeXArray = new int[arraySize];
     private int[] snakeYArray = new int[arraySize];
