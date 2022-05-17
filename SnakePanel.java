@@ -227,9 +227,9 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
 
     public void addBody() {
         if (bodyParts == arraySize) {
+            running = false;
             display.setVisible(true);
             display.setText("You Win!");
-            running = false;
             won = true;
             wins++;
         }
@@ -252,8 +252,6 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
 
     public void gameOver() {
         if (!won) {
-            display.setVisible(true);
-            display.setText("Game Over!");
             if (blinkAmount == 1) { 
                 playSound(deathSound);
             }
@@ -269,6 +267,8 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
             }
             else {
                 timer.stop();
+                display.setVisible(true);
+                display.setText("Game Over!");
             }
         }
         else {
