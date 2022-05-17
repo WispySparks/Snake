@@ -6,7 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.util.Random;
-import java.io.File;
+import java.net.URL;
+
 import javax.sound.sampled.*;
 
 public class SnakePanel extends JPanel implements KeyListener, ActionListener {
@@ -15,8 +16,9 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     private final int gridSize = 30;
     private final int windowSize = (gridSize*tileSize);
     private final int arraySize = 100;
-    private final File appleSound = new File("resources/audio/AppleSound.wav");
-    private final File deathSound = new File("resources/audio/DeathSound.wav");
+    private final URL appleSound = this.getClass().getResource("/resources/audio/AppleSound.wav");
+    private final URL deathSound = this.getClass().getResource("/resources/audio/DeathSound.wav");
+    private final URL preSound = this.getClass().getResource("/resources/audio/preload.wav");
     private int bodyParts;
     private int[] snakeXArray = new int[arraySize];
     private int[] snakeYArray = new int[arraySize];
@@ -43,11 +45,12 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
 
     SnakePanel() {  //ToDo input not feeling great should implment a next move
         this.setPreferredSize(new Dimension(windowSize, windowSize));
-        this.setBackground(Color.black);
+        this.setBackground(Color.BLACK);
         this.setFocusable(true);
         display.setForeground(Color.RED);
         display.setFont(new Font("Serif", Font.PLAIN, 40));
         this.add(display);
+        playSound(preSound);
         timer = new Timer((int) timerDelay, this);
         setup();
     }
@@ -80,7 +83,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         }
         else if (blinkBlack){      // draw blinking death
             for (int i=0; i<bodyParts; i++) {
-                g.setColor(new Color(0, 0, 0));
+                g.setColor(new Color(0, 0, 0, 0));
                 g.fillRect(snakeXArray[i], snakeYArray[i], tileSize, tileSize);
             }
         }
@@ -237,7 +240,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
         }
     }
 
-    public void playSound(File sound) {     // dont know how tf i made this work but uh yea it plays sounds
+    public void playSound(URL sound) {     // dont know how tf i made this work but uh yea it plays sounds
         try {
             audioStream = AudioSystem.getAudioInputStream(sound);
             clip = AudioSystem.getClip();
