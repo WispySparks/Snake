@@ -1,4 +1,5 @@
-package src.Snake;
+package Snake;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -7,7 +8,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 import java.net.URL;
-
 import javax.sound.sampled.*;
 
 public class SnakePanel extends JPanel implements KeyListener, ActionListener {

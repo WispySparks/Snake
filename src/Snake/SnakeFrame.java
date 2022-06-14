@@ -1,4 +1,5 @@
-package src.Snake;
+package Snake;
+
 import javax.swing.JFrame;
 import java.awt.*;
 
