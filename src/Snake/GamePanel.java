@@ -10,7 +10,7 @@ import java.util.Random;
 import java.net.URL;
 import javax.sound.sampled.*;
 
-public class SnakePanel extends JPanel implements KeyListener, ActionListener {
+public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
     private final int tileSize = 25;
     private final int gridSize = 30;
@@ -43,7 +43,7 @@ public class SnakePanel extends JPanel implements KeyListener, ActionListener {
     AudioInputStream audioStream;
     Clip clip;
 
-    SnakePanel() {  //ToDo input not feeling great should implment a next move
+    GamePanel() {  //ToDo input not feeling great should implment a next move
         this.setPreferredSize(new Dimension(windowSize, windowSize));
         this.setBackground(Color.BLACK);
         this.setFocusable(true);

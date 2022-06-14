@@ -6,8 +6,8 @@ import java.awt.event.*;
 
 public class UIPanel extends JPanel implements ActionListener{
     
-    private SnakeFrame frame;
-    private SnakePanel panel;
+    private GameFrame frame;
+    private GamePanel panel;
     private Timer timer;
     private int score = 0;
     private int timeAlive = 0;
@@ -21,10 +21,10 @@ public class UIPanel extends JPanel implements ActionListener{
     private Font mainFont = new Font("Serif", Font.PLAIN, 28);
     private Font smallFont = new Font("Serif", Font.PLAIN, 20);
     
-    UIPanel(SnakeFrame frame, SnakePanel panel) {
+    UIPanel(GameFrame frame, GamePanel panel) {
         this.frame = frame;
         this.panel = panel;
-        this.setPreferredSize(new Dimension(250, SnakePanel.HEIGHT));
+        this.setPreferredSize(new Dimension(250, GamePanel.HEIGHT));
         this.setBackground(Color.GRAY);
         this.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

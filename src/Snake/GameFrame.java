@@ -3,9 +3,9 @@ package Snake;
 import javax.swing.JFrame;
 import java.awt.*;
 
-public class SnakeFrame extends JFrame{
-    SnakeFrame() {
-        SnakePanel panel = new SnakePanel();
+public class GameFrame extends JFrame{
+    GameFrame() {
+        GamePanel panel = new GamePanel();
         UIPanel sidepanel = new UIPanel(this, panel);
         this.setLayout(new BorderLayout());     //layout for having multiple panels
         this.add(panel, BorderLayout.WEST);

@@ -1,7 +1,7 @@
 package Snake;
 
-public class SnakeMain {
+public class Main {
     public static void main(String[] args) {
-        new SnakeFrame(); 
+        new GameFrame(); 
     }
 }
