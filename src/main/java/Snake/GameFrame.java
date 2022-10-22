@@ -1,7 +1,8 @@
-package Snake;
+package main.java.Snake;
+
+import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
-import java.awt.*;
 
 public class GameFrame extends JFrame{
     GameFrame() {

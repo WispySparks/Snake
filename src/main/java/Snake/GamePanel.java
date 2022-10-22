@@ -1,14 +1,22 @@
-package Snake;
+package main.java.Snake;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.Random;
+import java.awt.event.KeyListener;
 import java.net.URL;
-import javax.sound.sampled.*;
+import java.util.Random;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
@@ -16,9 +24,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     private final int gridSize = 30;
     private final int windowSize = (gridSize*tileSize);
     private final int arraySize = 100;
-    private final URL appleSound = this.getClass().getResource("/resources/audio/AppleSound.wav");
-    private final URL deathSound = this.getClass().getResource("/resources/audio/DeathSound.wav");
-    private final URL preSound = this.getClass().getResource("/resources/audio/preload.wav");
+    private final URL appleSound = this.getClass().getResource("/src/main/resources/audio/AppleSound.wav");
+    private final URL deathSound = this.getClass().getResource("/src/main/resources/audio/DeathSound.wav");
+    private final URL preSound = this.getClass().getResource("/src/main/resources/audio/preload.wav");
     private int bodyParts;
     private int[] snakeXArray = new int[arraySize];
     private int[] snakeYArray = new int[arraySize];
