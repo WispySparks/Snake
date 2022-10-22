@@ -8,12 +8,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -24,9 +27,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     private final int gridSize = 30;
     private final int windowSize = (gridSize*tileSize);
     private final int arraySize = 100;
-    private final URL appleSound = this.getClass().getResource("/src/main/resources/audio/AppleSound.wav");
-    private final URL deathSound = this.getClass().getResource("/src/main/resources/audio/DeathSound.wav");
-    private final URL preSound = this.getClass().getResource("/src/main/resources/audio/preload.wav");
+    private final URL appleSound = this.getClass().getResource("/main/resources/audio/AppleSound.wav");
+    private final URL deathSound = this.getClass().getResource("/main/resources/audio/DeathSound.wav");
+    private final URL preSound = this.getClass().getResource("/main/resources/audio/preload.wav");
     private int bodyParts;
     private int[] snakeXArray = new int[arraySize];
     private int[] snakeYArray = new int[arraySize];
@@ -254,8 +257,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
             clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
-        } catch (Exception e) {
-
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
         }
     }
 
