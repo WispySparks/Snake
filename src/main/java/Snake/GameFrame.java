@@ -1,4 +1,4 @@
-package main.java.snake;
+package snake;
 
 import java.awt.BorderLayout;
 
