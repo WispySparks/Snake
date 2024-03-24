@@ -51,10 +51,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     private double time;
     private Timer timer;
     private JLabel display = new JLabel();
-    AudioInputStream audioStream;
-    Clip clip;
+    private AudioInputStream audioStream;
+    private Clip clip;
 
-    GamePanel() {  //ToDo input not feeling great should implment a next move
+    GamePanel() {  //todo input not feeling great should implment a next move
         this.setPreferredSize(new Dimension(windowSize, windowSize));
         this.setBackground(Color.BLACK);
         this.setFocusable(true);
@@ -66,7 +66,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
         setup();
     }
 
-    public void paint(Graphics g) {     // redraws window
+    @Override
+    public void paint(Graphics g) {     
         super.paint(g);     // draws the background
         // draw apple
         if (eaten == false) {
@@ -251,7 +252,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
         }
     }
 
-    public void playSound(URL sound) {     // dont know how tf i made this work but uh yea it plays sounds
+    public void playSound(URL sound) {     
         try {
             audioStream = AudioSystem.getAudioInputStream(sound);
             clip = AudioSystem.getClip();
@@ -289,7 +290,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {    // get key presses of user
+    public void keyPressed(KeyEvent e) {    
         if (e.getKeyCode() == KeyEvent.VK_UP && direction != 2 && gotInput == false) {
             direction = 0;
             gotInput = true;
@@ -307,15 +308,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
             gotInput = true;
         }
     }
+
+    @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER && running == true && timer.isRunning() == false) {
             timer.start();
         }
-
     }
-    public void keyTyped(KeyEvent event) {
 
-    }
+    @Override
+    public void keyTyped(KeyEvent event) {}
 
     public int randRange(int min, int max) {
         return rand.ints(min, max).findFirst().getAsInt();
@@ -339,4 +341,5 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     public int getWins() {
         return wins;
     }
+
 }

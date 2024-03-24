@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 
-public class UIPanel extends JPanel implements ActionListener{
+public class UIPanel extends JPanel implements ActionListener {
     
     private GameFrame frame;
     private GamePanel panel;
@@ -44,6 +44,7 @@ public class UIPanel extends JPanel implements ActionListener{
         timer.start();
     }
 
+    @Override
     public void actionPerformed(ActionEvent e ) {
         score = panel.getScore();
         timeAlive = (int) panel.getTime();
@@ -93,4 +94,5 @@ public class UIPanel extends JPanel implements ActionListener{
         add(restartButton);
         add(quitButton);
     }
+    
 }
