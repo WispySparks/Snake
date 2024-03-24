@@ -1,4 +1,4 @@
-package main.java.Snake;
+package main.java.snake;
 
 import java.awt.Color;
 import java.awt.Dimension;
