@@ -27,9 +27,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     private final int gridSize = 30;
     private final int windowSize = (gridSize*tileSize);
     private final int arraySize = 100;
-    private final URL appleSound = this.getClass().getResource("/main/resources/audio/AppleSound.wav");
-    private final URL deathSound = this.getClass().getResource("/main/resources/audio/DeathSound.wav");
-    private final URL preSound = this.getClass().getResource("/main/resources/audio/preload.wav");
+    private final URL appleSound = this.getClass().getResource("/audio/AppleSound.wav");
+    private final URL deathSound = this.getClass().getResource("/audio/DeathSound.wav");
+    private final URL preSound = this.getClass().getResource("/audio/preload.wav");
     private int bodyParts;
     private int[] snakeXArray = new int[arraySize];
     private int[] snakeYArray = new int[arraySize];
